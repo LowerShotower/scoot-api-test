@@ -19,6 +19,7 @@ const App = () => {
 
   return (
     <div className="">
+      <h3>hello</h3>
       {familyTree?.map(({name})=>{
         return <h3>{name}</h3>
       })}
