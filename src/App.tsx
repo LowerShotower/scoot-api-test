@@ -1,12 +1,28 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import logo from './logo.svg';
 import './App.css';
+import axios from 'axios'
 
-function App() {
+const App = () => {
+
+  const [familyTree, setFamilyTree] = useState<any[]>([])
+  useEffect(() => {
+    const fetch = async() => {
+      const res = await axios.get('https://mockend.com/LowerShotower/scoot-api-test/users')
+      
+      console.log(JSON.stringify(res.data))
+      console.log(res.data)
+
+    }
+    fetch()
+  }, [])
+
   return (
-    <h1 className="text-4xl font-bold underline">
-      Hello world!
-    </h1>
+    <div className="">
+      {familyTree?.map(({name})=>{
+        return <h3>{name}</h3>
+      })}
+      </div>
   );
 }
 
