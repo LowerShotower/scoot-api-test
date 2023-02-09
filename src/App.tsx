@@ -1,30 +1,15 @@
-import React, { useEffect, useState } from 'react';
-import logo from './logo.svg';
-import './App.css';
-import axios from 'axios'
+import React from 'react';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { Home } from './pages/Home/Home';
 
-const App = () => {
-
-  const [familyTree, setFamilyTree] = useState<any[]>([])
-  useEffect(() => {
-    const fetch = async() => {
-      const res = await axios.get('https://mockend.com/LowerShotower/scoot-api-test/users')
-      
-      console.log(JSON.stringify(res.data))
-      console.log(res.data)
-
-    }
-    fetch()
-  }, [])
-
+const App = (): JSX.Element => {
   return (
-    <div className="">
-      <h3>hello</h3>
-      {familyTree?.map(({name})=>{
-        return <h3>{name}</h3>
-      })}
-      </div>
+    <Router>
+      <Routes>
+        <Route path="/" element={<Home />} />
+      </Routes>
+    </Router>
   );
-}
+};
 
 export default App;
