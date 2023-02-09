@@ -1,5 +1,5 @@
 import { faker } from '@faker-js/faker';
-import { type Ancestor } from './common';
+import { type Ancestor } from './types/common';
 
 export const createNode = (width: number, depth: number): Ancestor => {
   return {

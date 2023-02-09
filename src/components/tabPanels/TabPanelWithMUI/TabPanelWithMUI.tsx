@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useTransition } from 'react';
 import Chip from '@mui/material/Chip';
 import Avatar from '@mui/material/Avatar';
-import { type Ancestor } from '../../../common';
+import { type Ancestor } from '../../../types/common';
 import TreeView from '@mui/lab/TreeView';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
@@ -13,6 +13,7 @@ import { Button } from '@mui/material';
 // TODO: checkout handlers and useUseCallback fro it
 // TODO: use useMemo for results of calculations
 // TODO: normolize the ancestors, so that it would be possible to get values by id from flat list of objects
+// TODO: make mind map representation in react without MUI
 
 const Tree = ({ ancestor }: { ancestor: Ancestor }): JSX.Element => {
   return (
@@ -30,7 +31,7 @@ const Tree = ({ ancestor }: { ancestor: Ancestor }): JSX.Element => {
     >
       {Array.isArray(ancestor.children) && ancestor.children.length > 0
         ? ancestor.children.map((child: Ancestor) => (
-            <Tree key={child.name} ancestor={child} />
+            <MemTree key={child.name} ancestor={child} />
           ))
         : null}
     </StyledTreeItem>

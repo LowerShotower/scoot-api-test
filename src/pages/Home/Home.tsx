@@ -1,12 +1,11 @@
 import * as React from 'react';
 import { useState } from 'react';
 import { Container, Slider } from '@mui/material';
-import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import { TabPanelWithMUI } from '../../components/tabPanels/TabPanelWithMUI/TabPanelWithMUI';
-import { type Ancestor } from '../../common';
+import { type Ancestor } from '../../types/common';
 import { createFamilyTree } from '../../utils';
 import { StyledTabs } from './Home.styles';
 
