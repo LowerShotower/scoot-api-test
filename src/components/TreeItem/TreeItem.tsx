@@ -4,7 +4,7 @@ import { StyledContainer, StyledUl } from './TreeItem.styles';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import { ExpandedContext } from '../TreeView/TreeView';
-import { type Ancestor } from '../../types/common';
+import { type Descendant } from '../../types/common';
 import { Avatar, Chip } from '@mui/material';
 
 interface TreeItemCoreElementProps {
@@ -17,22 +17,26 @@ interface TreeItemCoreElementProps {
 
 const TreeItemCoreElement = ({
   content,
-  children,
   id,
+  children,
   expanded,
   onClick,
 }: TreeItemCoreElementProps): JSX.Element => {
   const handleContentClick = (e: React.SyntheticEvent): void => {
     onClick?.(e);
   };
-
+  const hasChildren = !!(
+    children &&
+    Array.isArray(children) &&
+    children.length
+  );
   return (
     <>
       <StyledContainer withPointer={!!children} onClick={handleContentClick}>
-        {children && (expanded ? <ExpandMoreIcon /> : <ChevronRightIcon />)}
+        {hasChildren && (expanded ? <ExpandMoreIcon /> : <ChevronRightIcon />)}
         {content}
       </StyledContainer>
-      {children && (
+      {hasChildren && (
         <StyledUl
           style={{
             display: expanded ? 'flex' : 'none',
@@ -40,7 +44,7 @@ const TreeItemCoreElement = ({
         >
           {React.Children.map(React.Children.toArray(children), (child) => {
             return (
-              <li>
+              <li key={id}>
                 {React.cloneElement(child as JSX.Element, {
                   // expanded: _expanded,
                 })}
@@ -55,7 +59,7 @@ const TreeItemCoreElement = ({
 
 export interface TreeItemProps {
   id: number | string;
-  descendants?: Ancestor[];
+  descendants?: Descendant[];
   content?: JSX.Element;
 }
 const TreeItem = ({ id, descendants, content }: TreeItemProps): JSX.Element => {
@@ -78,11 +82,11 @@ const TreeItem = ({ id, descendants, content }: TreeItemProps): JSX.Element => {
       onClick={handleClick}
       content={content}
     >
-      {descendants?.map(({ name, payload, children }: Ancestor) => (
+      {descendants?.map(({ name, payload, descendants }: Descendant) => (
         <TreeItem
           key={name}
           id={name}
-          descendants={children}
+          descendants={descendants}
           content={
             <Chip
               avatar={<Avatar alt={name} src={payload.avatarUrl} />}

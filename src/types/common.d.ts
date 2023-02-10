@@ -1,4 +1,4 @@
-export interface Ancestor {
+export interface Descendant {
   name: string;
   payload: {
     age: number;
@@ -6,5 +6,5 @@ export interface Ancestor {
     avatarUrl: string;
     [key: string]: any;
   };
-  children: Ancestor[];
+  descendants: Descendant[];
 }

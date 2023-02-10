@@ -1,10 +1,14 @@
 import { Avatar, Button, Chip } from '@mui/material';
 import React, { useState } from 'react';
-import { type Ancestor } from '../../../types/common';
+import { type Descendant } from '../../../types/common';
 import TreeItem from '../../TreeItem/TreeItem';
 import TreeView from '../../TreeView/TreeView';
 
-const TabPanelWithPlainReact = ({ tree }: { tree: Ancestor }): JSX.Element => {
+const TabPanelWithPlainReact = ({
+  tree,
+}: {
+  tree: Descendant;
+}): JSX.Element => {
   const [expandedAll, setExpandedAll] = useState<boolean>(false);
 
   const handleExpandClick = (): void => {
@@ -20,7 +24,7 @@ const TabPanelWithPlainReact = ({ tree }: { tree: Ancestor }): JSX.Element => {
       <TreeView expandedAll={expandedAll}>
         <TreeItem
           id={tree.name}
-          descendants={tree.children}
+          descendants={tree.descendants}
           content={
             <Chip
               avatar={<Avatar alt={tree.name} src={tree.payload.avatarUrl} />}

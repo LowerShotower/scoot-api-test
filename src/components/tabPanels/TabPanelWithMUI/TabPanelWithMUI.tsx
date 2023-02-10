@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useTransition } from 'react';
 import Chip from '@mui/material/Chip';
 import Avatar from '@mui/material/Avatar';
-import { type Ancestor } from '../../../types/common';
+import { type Descendant } from '../../../types/common';
 import TreeView from '@mui/lab/TreeView';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
@@ -14,8 +14,9 @@ import { Button } from '@mui/material';
 // TODO: use useMemo for results of calculations
 // TODO: normolize the ancestors, so that it would be possible to get values by id from flat list of objects
 // TODO: make mind map representation in react without MUI
+// TODDO: look how to display only part of the list near the current selected one
 
-const Tree = ({ ancestor }: { ancestor: Ancestor }): JSX.Element => {
+const Tree = ({ ancestor }: { ancestor: Descendant }): JSX.Element => {
   return (
     <StyledTreeItem
       nodeId={ancestor.name}
@@ -29,8 +30,8 @@ const Tree = ({ ancestor }: { ancestor: Ancestor }): JSX.Element => {
         />
       }
     >
-      {Array.isArray(ancestor.children) && ancestor.children.length > 0
-        ? ancestor.children.map((child: Ancestor) => (
+      {Array.isArray(ancestor.descendants) && ancestor.descendants.length > 0
+        ? ancestor.descendants.map((child: Descendant) => (
             <MemTree key={child.name} ancestor={child} />
           ))
         : null}
@@ -40,7 +41,11 @@ const Tree = ({ ancestor }: { ancestor: Ancestor }): JSX.Element => {
 
 const MemTree = React.memo(Tree);
 
-export const TabPanelWithMUI = ({ tree }: { tree: Ancestor }): JSX.Element => {
+export const TabPanelWithMUI = ({
+  tree,
+}: {
+  tree: Descendant;
+}): JSX.Element => {
   const [expanded, setExpanded] = useState<string[]>([]);
   const [selected, setSelected] = useState<string[]>([]);
   const [isPending, startTransition] = useTransition();
@@ -59,10 +64,10 @@ export const TabPanelWithMUI = ({ tree }: { tree: Ancestor }): JSX.Element => {
 
   const handleExpandClick = (): void => {
     startTransition(() => {
-      const extractIds = (item: Ancestor): string[] => {
-        return item.children.length > 0
-          ? item.children.reduce(
-              (acc: string[], child: Ancestor): string[] => {
+      const extractIds = (item: Descendant): string[] => {
+        return item.descendants.length > 0
+          ? item.descendants.reduce(
+              (acc: string[], child: Descendant): string[] => {
                 return (acc = [...acc, ...extractIds(child)]);
               },
               [item.name]

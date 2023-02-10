@@ -1,7 +1,7 @@
 import { faker } from '@faker-js/faker';
-import { type Ancestor } from './types/common';
+import { type Descendant } from './types/common';
 
-export const createNode = (width: number, depth: number): Ancestor => {
+export const createNode = (width: number, depth: number): Descendant => {
   return {
     name: faker.name.fullName(),
     payload: {
@@ -10,16 +10,16 @@ export const createNode = (width: number, depth: number): Ancestor => {
       avatarUrl: faker.image.avatar(),
       quote: 'https://favqs.com/api/qotd',
     },
-    children:
+    descendants:
       depth > 0
         ? Array.from(
             Array(Math.floor(Math.random() * width) + 1),
-            (): Ancestor => createNode(width, depth - 1)
+            (): Descendant => createNode(width, depth - 1)
           )
         : [],
   };
 };
 
-export const createFamilyTree = (depth: number, width: number): Ancestor => {
+export const createFamilyTree = (depth: number, width: number): Descendant => {
   return createNode(width, depth - 1);
 };

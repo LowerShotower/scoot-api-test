@@ -6,7 +6,7 @@ import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import { TabPanelWithMUI } from '../../components/tabPanels/TabPanelWithMUI/TabPanelWithMUI';
 import TabPanelWithPlainReact from '../../components/tabPanels/TabPanelWithPlainReact/TabPanelWithPlainReact';
-import { type Ancestor } from '../../types/common';
+import { type Descendant } from '../../types/common';
 import { createFamilyTree } from '../../utils';
 import {
   StyledTabs,
@@ -54,7 +54,7 @@ export const Home = (): JSX.Element => {
   const [value, setValue] = useState<TAB>(TAB.plain);
   const [treeDepthValue, setTreeDepthValue] = useState<number>(9);
   const [treeWidthValue, setTreeWidthValue] = useState<number>(3);
-  const [currFamilyTree, setCurrFamilyTree] = useState<Ancestor>(
+  const [currFamilyTree, setCurrFamilyTree] = useState<Descendant>(
     createFamilyTree(treeDepthValue, treeWidthValue)
   );
 
