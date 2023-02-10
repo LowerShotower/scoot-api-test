@@ -6,7 +6,7 @@ import TreeView from '../../TreeView/TreeView';
 
 // TODO: integrate Pointer instance (current selected item pointer), and display only 10 closest ancestors and descendants.
 // Display ... fro the rest ot the elements from start and from the end
-
+// TODO: load content (or take it from the array) ONLY when the item is expanded. So we will have a representation of expanded items, that will be displayed
 const TabPanelWithPlainReact = ({
   tree,
 }: {
