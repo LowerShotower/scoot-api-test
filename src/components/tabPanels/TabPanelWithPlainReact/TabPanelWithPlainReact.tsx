@@ -4,6 +4,9 @@ import { type Descendant } from '../../../types/common';
 import TreeItem from '../../TreeItem/TreeItem';
 import TreeView from '../../TreeView/TreeView';
 
+// TODO: integrate Pointer instance (current selected item pointer), and display only 10 closest ancestors and descendants.
+// Display ... fro the rest ot the elements from start and from the end
+
 const TabPanelWithPlainReact = ({
   tree,
 }: {

@@ -32,7 +32,7 @@ const TreeItemCoreElement = ({
   );
   return (
     <>
-      <StyledContainer withPointer={!!children} onClick={handleContentClick}>
+      <StyledContainer withPointer={hasChildren} onClick={handleContentClick}>
         {hasChildren && (expanded ? <ExpandMoreIcon /> : <ChevronRightIcon />)}
         {content}
       </StyledContainer>
@@ -44,11 +44,7 @@ const TreeItemCoreElement = ({
         >
           {React.Children.map(React.Children.toArray(children), (child) => {
             return (
-              <li key={id}>
-                {React.cloneElement(child as JSX.Element, {
-                  // expanded: _expanded,
-                })}
-              </li>
+              <li key={id}>{React.cloneElement(child as JSX.Element, {})}</li>
             );
           })}
         </StyledUl>
