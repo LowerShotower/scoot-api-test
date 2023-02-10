@@ -1,13 +1,19 @@
 import * as React from 'react';
 import { useState } from 'react';
-import { Container, Slider } from '@mui/material';
+import { Slider } from '@mui/material';
 import Tab from '@mui/material/Tab';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import { TabPanelWithMUI } from '../../components/tabPanels/TabPanelWithMUI/TabPanelWithMUI';
+import TabPanelWithPlainReact from '../../components/tabPanels/TabPanelWithPlainReact/TabPanelWithPlainReact';
 import { type Ancestor } from '../../types/common';
 import { createFamilyTree } from '../../utils';
-import { StyledTabs } from './Home.styles';
+import {
+  StyledTabs,
+  StyledSlidersContainer,
+  StyledHomeContainer,
+  StyledPaper,
+} from './Home.styles';
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -38,13 +44,20 @@ const TabPanel = ({
   );
 };
 
+const enum TAB {
+  MUI,
+  plain,
+  carousel,
+}
+
 export const Home = (): JSX.Element => {
-  const [value, setValue] = useState<number>(0);
+  const [value, setValue] = useState<TAB>(TAB.plain);
   const [treeDepthValue, setTreeDepthValue] = useState<number>(9);
   const [treeWidthValue, setTreeWidthValue] = useState<number>(3);
   const [currFamilyTree, setCurrFamilyTree] = useState<Ancestor>(
     createFamilyTree(treeDepthValue, treeWidthValue)
   );
+
   const handleTabChange = (
     event: React.SyntheticEvent,
     newValue: number
@@ -69,17 +82,16 @@ export const Home = (): JSX.Element => {
   };
 
   return (
-    <Container maxWidth="sm">
-      <Box sx={{ width: '100%' }}>
-        <Box
-          sx={{
-            width: 300,
-            display: 'flex',
-            flexDirection: 'column',
-            justifyContent: 'center',
-            margin: '0 auto',
-          }}
-        >
+    <StyledHomeContainer maxWidth="md">
+      <Box
+        sx={{
+          width: '100%',
+          display: 'flex',
+          flexDirection: 'column',
+          height: 'inherit',
+        }}
+      >
+        <StyledSlidersContainer>
           <Typography>Depth</Typography>
           <Slider
             onChange={handleTreeDepthChange}
@@ -102,7 +114,7 @@ export const Home = (): JSX.Element => {
             valueLabelDisplay="auto"
             value={treeWidthValue}
           />
-        </Box>
+        </StyledSlidersContainer>
         <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
           <StyledTabs
             sx={{ justifyContent: 'center' }}
@@ -110,19 +122,21 @@ export const Home = (): JSX.Element => {
             onChange={handleTabChange}
           >
             <Tab label="With Material UI" />
-            <Tab label="Carousel" />
+            <Tab label="Custom Component" />
           </StyledTabs>
         </Box>
-        <TabPanel value={value} index={0}>
-          <TabPanelWithMUI tree={currFamilyTree} />
-        </TabPanel>
-        <TabPanel value={value} index={1}>
-          Item Two
-        </TabPanel>
-        <TabPanel value={value} index={2}>
-          Item Three
-        </TabPanel>
+        <StyledPaper>
+          <TabPanel value={value} index={0}>
+            <TabPanelWithMUI tree={currFamilyTree} />
+          </TabPanel>
+          <TabPanel value={value} index={1}>
+            <TabPanelWithPlainReact tree={currFamilyTree} />
+          </TabPanel>
+          <TabPanel value={value} index={2}>
+            Item Three
+          </TabPanel>
+        </StyledPaper>
       </Box>
-    </Container>
+    </StyledHomeContainer>
   );
 };

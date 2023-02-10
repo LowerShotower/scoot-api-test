@@ -14,7 +14,7 @@ export const createNode = (width: number, depth: number): Ancestor => {
       depth > 0
         ? Array.from(
             Array(Math.floor(Math.random() * width) + 1),
-            (v: number, i: number): Ancestor => createNode(width, depth - 1)
+            (): Ancestor => createNode(width, depth - 1)
           )
         : [],
   };
