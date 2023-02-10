@@ -1,40 +1,58 @@
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
-import React, { useCallback, useContext, useEffect, useState } from 'react';
+import React, {
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+} from 'react';
 import { StyledContainer, StyledUl } from './TreeItem.styles';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import { ExpandedContext } from '../TreeView/TreeView';
 import { type Descendant } from '../../types/common';
-import { Avatar, Chip } from '@mui/material';
 
-interface TreeItemCoreElementProps {
+interface TreeItemCoreElementProps
+  extends Pick<
+    TreeItemProps<ItemContentType>,
+    'content' | 'onItemClick' | 'item'
+  > {
   children?: React.ReactNode;
   id: string | number;
-  content?: JSX.Element;
   expanded?: boolean;
-  onClick?: (e: React.SyntheticEvent) => void;
 }
+
+type ItemContentType = Pick<Descendant, 'name' | 'payload' | 'descendants'>;
 
 const TreeItemCoreElement = ({
   content,
   id,
   children,
+  item,
   expanded,
-  onClick,
+  onItemClick,
 }: TreeItemCoreElementProps): JSX.Element => {
-  const handleContentClick = (e: React.SyntheticEvent): void => {
-    onClick?.(e);
-  };
   const hasChildren = !!(
     children &&
     Array.isArray(children) &&
     children.length
   );
+  const memorizedContent = useMemo(() => {
+    return (
+      <>
+        {hasChildren && (expanded ? <ExpandMoreIcon /> : <ChevronRightIcon />)}
+        {content(item)}
+      </>
+    );
+  }, [expanded, content, item]);
+  const handleContentClick = (e: React.SyntheticEvent): void => {
+    onItemClick?.(e, id);
+  };
+
   return (
     <>
       <StyledContainer withPointer={hasChildren} onClick={handleContentClick}>
-        {hasChildren && (expanded ? <ExpandMoreIcon /> : <ChevronRightIcon />)}
-        {content}
+        {memorizedContent}
       </StyledContainer>
       {hasChildren && (
         <StyledUl
@@ -53,12 +71,19 @@ const TreeItemCoreElement = ({
   );
 };
 
-export interface TreeItemProps {
+export interface TreeItemProps<ItemContentType> {
   id: number | string;
-  descendants?: Descendant[];
-  content?: JSX.Element;
+  item: ItemContentType;
+  content: (item: ItemContentType) => JSX.Element;
+  onItemClick: (e: React.SyntheticEvent, id: string | number) => void;
 }
-const TreeItem = ({ id, descendants, content }: TreeItemProps): JSX.Element => {
+export interface InjectedProps extends TreeItemProps<ItemContentType> {
+  extended: boolean;
+}
+
+const TreeItem: <T extends TreeItemProps<ItemContentType>>(
+  props: T
+) => React.ReactElement<T> = ({ id, item, content, onItemClick }) => {
   const [_expanded, setExpanded] = useState<boolean>(false);
 
   const { expandedAll } = useContext(ExpandedContext);
@@ -67,33 +92,32 @@ const TreeItem = ({ id, descendants, content }: TreeItemProps): JSX.Element => {
     setExpanded(expandedAll);
   }, [expandedAll]);
 
-  const handleClick = (e: React.SyntheticEvent): void => {
+  const handleContentClick = useCallback((e: React.SyntheticEvent): void => {
     setExpanded((prev) => !prev);
-  };
+    onItemClick?.(e, id);
+  }, []);
 
   return (
     <TreeItemCoreElement
       id={id}
+      item={item}
       expanded={_expanded}
-      onClick={handleClick}
+      onItemClick={handleContentClick}
       content={content}
     >
-      {descendants?.map(({ name, payload, descendants }: Descendant) => (
-        <TreeItem
-          key={name}
-          id={name}
-          descendants={descendants}
-          content={
-            <Chip
-              avatar={<Avatar alt={name} src={payload.avatarUrl} />}
-              label={name}
-              variant="outlined"
-            />
-          }
+      {item?.descendants?.map((descendant: Descendant) => (
+        <MemorizedTreeItem
+          onItemClick={onItemClick}
+          key={descendant.name}
+          id={descendant.name}
+          item={descendant}
+          content={content}
         />
       ))}
     </TreeItemCoreElement>
   );
 };
+
+const MemorizedTreeItem = React.memo(TreeItem);
 
 export default TreeItem;
