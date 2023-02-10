@@ -83,60 +83,51 @@ export const Home = (): JSX.Element => {
 
   return (
     <StyledHomeContainer maxWidth="md">
-      <Box
-        sx={{
-          width: '100%',
-          display: 'flex',
-          flexDirection: 'column',
-          height: 'inherit',
-        }}
-      >
-        <StyledSlidersContainer>
-          <Typography>Depth</Typography>
-          <Slider
-            onChange={handleTreeDepthChange}
-            defaultValue={2}
-            value={treeDepthValue}
-            valueLabelDisplay="auto"
-            step={1}
-            marks
-            min={1}
-            max={20}
-          />
-          <Typography> Max Width</Typography>
-          <Slider
-            onChange={handleTreeWidthChange}
-            defaultValue={2}
-            step={1}
-            marks
-            min={1}
-            max={5}
-            valueLabelDisplay="auto"
-            value={treeWidthValue}
-          />
-        </StyledSlidersContainer>
-        <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-          <StyledTabs
-            sx={{ justifyContent: 'center' }}
-            value={value}
-            onChange={handleTabChange}
-          >
-            <Tab label="With Material UI" />
-            <Tab label="Custom Component" />
-          </StyledTabs>
-        </Box>
-        <StyledPaper>
-          <TabPanel value={value} index={0}>
-            <TabPanelWithMUI tree={currFamilyTree} />
-          </TabPanel>
-          <TabPanel value={value} index={1}>
-            <TabPanelWithPlainReact tree={currFamilyTree} />
-          </TabPanel>
-          <TabPanel value={value} index={2}>
-            Item Three
-          </TabPanel>
-        </StyledPaper>
+      <StyledSlidersContainer>
+        <Typography>Depth</Typography>
+        <Slider
+          onChange={handleTreeDepthChange}
+          defaultValue={2}
+          value={treeDepthValue}
+          valueLabelDisplay="auto"
+          step={1}
+          marks
+          min={1}
+          max={20}
+        />
+        <Typography> Max Width</Typography>
+        <Slider
+          onChange={handleTreeWidthChange}
+          defaultValue={2}
+          step={1}
+          marks
+          min={1}
+          max={5}
+          valueLabelDisplay="auto"
+          value={treeWidthValue}
+        />
+      </StyledSlidersContainer>
+      <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+        <StyledTabs
+          sx={{ justifyContent: 'center' }}
+          value={value}
+          onChange={handleTabChange}
+        >
+          <Tab label="With Material UI" />
+          <Tab label="Custom Component" />
+        </StyledTabs>
       </Box>
+      <StyledPaper>
+        <TabPanel value={value} index={0}>
+          <TabPanelWithMUI tree={currFamilyTree} />
+        </TabPanel>
+        <TabPanel value={value} index={1}>
+          <TabPanelWithPlainReact tree={currFamilyTree} />
+        </TabPanel>
+        <TabPanel value={value} index={2}>
+          Item Three
+        </TabPanel>
+      </StyledPaper>
     </StyledHomeContainer>
   );
 };

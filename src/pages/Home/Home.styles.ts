@@ -16,9 +16,12 @@ export const StyledSlidersContainer = styled(Box)`
 `;
 
 export const StyledHomeContainer = styled(Container)`
-  flex-direction: column;
-  height: inherit;
-  padding: 10px;
+  &&& {
+    display: flex;
+    flex-direction: column;
+    height: inherit;
+    padding: 20px;
+  }
 `;
 
 export const StyledPaper = styled(Paper).attrs((props) => ({ elevation: 2 }))`
