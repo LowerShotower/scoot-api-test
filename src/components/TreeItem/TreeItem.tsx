@@ -62,7 +62,9 @@ const TreeItemCoreElement = ({
         >
           {React.Children.map(React.Children.toArray(children), (child) => {
             return (
-              <li key={id}>{React.cloneElement(child as JSX.Element, {})}</li>
+              <li key={id} className="ml-3">
+                {React.cloneElement(child as JSX.Element, {})}
+              </li>
             );
           })}
         </StyledUl>
