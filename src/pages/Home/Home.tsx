@@ -14,6 +14,7 @@ import {
   StyledHomeContainer,
   StyledPaper,
 } from './Home.styles';
+import TabPanelWithCarousel from '../../components/tabPanels/TabPanelWithCarousel/TabPanelWithCarousel';
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -52,8 +53,8 @@ const enum TAB {
 
 export const Home = (): JSX.Element => {
   const [value, setValue] = useState<TAB>(TAB.plain);
-  const [treeDepthValue, setTreeDepthValue] = useState<number>(9);
-  const [treeWidthValue, setTreeWidthValue] = useState<number>(3);
+  const [treeDepthValue, setTreeDepthValue] = useState<number>(5);
+  const [treeWidthValue, setTreeWidthValue] = useState<number>(5);
   const [currFamilyTree, setCurrFamilyTree] = useState<Descendant>(
     createFamilyTree(treeDepthValue, treeWidthValue)
   );
@@ -115,17 +116,18 @@ export const Home = (): JSX.Element => {
         >
           <Tab label="With Material UI" />
           <Tab label="Custom Component" />
+          <Tab label="Tailwind Carousel" />
         </StyledTabs>
       </Box>
       <StyledPaper>
-        <TabPanel value={value} index={0}>
+        <TabPanel value={value} index={TAB.MUI}>
           <TabPanelWithMUI tree={currFamilyTree} />
         </TabPanel>
-        <TabPanel value={value} index={1}>
+        <TabPanel value={value} index={TAB.plain}>
           <TabPanelWithPlainReact tree={currFamilyTree} />
         </TabPanel>
-        <TabPanel value={value} index={2}>
-          Item Three
+        <TabPanel value={value} index={TAB.carousel}>
+          <TabPanelWithCarousel tree={currFamilyTree} />
         </TabPanel>
       </StyledPaper>
     </StyledHomeContainer>

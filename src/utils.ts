@@ -8,7 +8,7 @@ export const createNode = (width: number, depth: number): Descendant => {
       age: +faker.random.numeric(2),
       atHome: faker.datatype.boolean(),
       avatarUrl: faker.image.avatar(),
-      quote: 'https://favqs.com/api/qotd',
+      quote: faker.address.cityName(),
     },
     descendants:
       depth > 0
