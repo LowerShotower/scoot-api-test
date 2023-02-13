@@ -22,6 +22,7 @@ const TabPanelWithCarousel = ({
   const [normalizedTree, setNormalizedTree] = useState<
     Record<string, NormalizedTreeItem>
   >({});
+
   const [currPoiterState, setCurrPointerState] = useState<CurrPointerState>({
     itemId: tree?.name,
     parentsIds: [],
@@ -42,7 +43,9 @@ const TabPanelWithCarousel = ({
       childrenIds: [...(normalizedTree[tree?.name]?.descendantsIds ?? [])],
     });
   }, [normalizedTree]);
+
   const currItem = normalizedTree[currPoiterState.itemId];
+
   const handleItemClick = (id: string) => () => {
     setCurrPointerState({
       itemId: id,
